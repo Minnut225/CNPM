@@ -16,6 +16,11 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    public List<Order> getAllOrders(){
+        return orderRepo.findAll();
+    }
+
+    @Override
     public Order getOrderById(int id){
         if (orderRepo.findById(id).isEmpty()){
             throw new RuntimeException("Order not found");
@@ -29,7 +34,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteOrderById(int id) {
         orderRepo.deleteById(id);
     }
 }

@@ -9,11 +9,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CartServiceImpl implements CartService {
+    
     private final CartRepo cartRepo;
 
     public CartServiceImpl(CartRepo cartRepo){
         this.cartRepo = cartRepo;
     }
+
+    @Override
+    public List<Cart> getAllCarts(){
+        return cartRepo.findAll();
+    }   
 
     @Override
     public Cart getCartById(int id){
@@ -29,7 +35,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteCartById(int id) {
         cartRepo.deleteById(id);
     }
 }

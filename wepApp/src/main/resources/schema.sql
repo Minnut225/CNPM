@@ -25,7 +25,9 @@ CREATE TABLE Orders (
     userId INT,
     orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'PENDING',
-    totalAmount DOUBLE,
+    totalPrice DOUBLE,
+    payment VARCHAR(50),
+    shipping_address VARCHAR(255),
     FOREIGN KEY (userId) REFERENCES Users(id)
 );
 
@@ -40,8 +42,8 @@ CREATE TABLE OrderItems (
     FOREIGN KEY (productId) REFERENCES Products(id)
 );
 
--- Bảng cart
-CREATE TABLE Cart (
+-- Bảng carts
+CREATE TABLE Carts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
     FOREIGN KEY (userId) REFERENCES Users(id)
@@ -53,6 +55,6 @@ CREATE TABLE CartItems (
     cartId INT,
     productId INT,
     quantity INT,
-    FOREIGN KEY (cartId) REFERENCES Cart(id),
+    FOREIGN KEY (cartId) REFERENCES Carts(id),
     FOREIGN KEY (productId) REFERENCES Products(id)
 );

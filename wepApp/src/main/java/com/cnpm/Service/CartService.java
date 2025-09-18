@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CartService {
 
+    List<Cart> getAllCarts();
+
     Cart getCartById(int id);
 
     Cart saveCart(Cart cart);
 
-    void deleteById(int id);
+    void deleteCartById(int id);
 }

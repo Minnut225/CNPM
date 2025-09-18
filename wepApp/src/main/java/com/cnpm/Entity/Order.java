@@ -5,17 +5,29 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "Orders") // tên Table trong database
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "userId")
     private int userId;
+
+    @Column(name = "orderDate")
     private String orderDate;
+
+    @Column(name = "totalPrice")
     private double totalPrice;
+
+    @Column(name = "payment")
     private String payment;
+
+    @Column(name = "shipping_address")
     private String shipping_address;
 
     //Constructors

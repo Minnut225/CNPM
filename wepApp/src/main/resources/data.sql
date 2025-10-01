@@ -27,12 +27,13 @@ INSERT INTO Users (name, password, email, address, phone, role) VALUES
 -- PRODUCTS (20 products)
 -- =========================
 INSERT INTO Products (name, description, price, category, imageUrl) VALUES
-('Laptop 1', 'High performance laptop', 1500.0, 'Electronics', 'laptop1.jpg'),
-('Laptop 2', 'Business laptop', 1200.0, 'Electronics', 'laptop2.jpg'),
-('Phone 1', 'Smartphone with great camera', 800.0, 'Electronics', 'phone1.jpg'),
-('Phone 2', 'Budget smartphone', 400.0, 'Electronics', 'phone2.jpg'),
-('Tablet 1', '10-inch tablet', 600.0, 'Electronics', 'tablet1.jpg'),
-('Tablet 2', '8-inch tablet', 450.0, 'Electronics', 'tablet2.jpg'),
+('Combo Gà giòn - 1 miếng', 'Phần ăn gồm: 01 Gà giòn + 01 Khoai tây chiên (S) + 01 Nước ngọt', 55000.0, 'Fried_Chicken', 'menu/combo_1_mieng_ga_gion.jpg'),
+('Combo Gà giòn - 2 miếng', 'Phần ăn gồm: 02 Gà giòn + 01 Khoai tây chiên (S) + 01 Nước ngọt', 55000.0, 'Fried_Chicken', 'menu/1_mieng_ga_gion.jpg'),
+('1 miếng gà giòn', 'Gà giòn - Phần gà được phục vụ ngẫu nhiên', 35000.0, 'Fried_Chicken', 'menu/1_mieng_ga_gion.jpg'),
+('3 miếng gà giòn', '3 miếng gà giòn', 100000.0, 'Fried_Chicken', 'menu/3_mieng_ga_gion.jpg'),
+('6 miếng gà giòn', '6 miếng gà giòn', 200000.0, 'Fried_Chicken', 'menu/3_mieng_ga_gion.jpg'),
+('9 miếng gà giòn', '9 miếng gà giòn', 300000.0, 'Fried_Chicken', 'menu/3_mieng_ga_gion.jpg'),
+
 ('Headphones 1', 'Noise cancelling headphones', 200.0, 'Accessories', 'headphones1.jpg'),
 ('Headphones 2', 'Wireless headphones', 150.0, 'Accessories', 'headphones2.jpg'),
 ('Keyboard 1', 'Mechanical keyboard', 100.0, 'Accessories', 'keyboard1.jpg'),

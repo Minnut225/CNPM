@@ -18,6 +18,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByPhone(String phone) {
+        return userRepository.findByPhone(phone).orElse(null);
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        return userRepository.findByName(name).orElse(null);
+    }
+
+    @Override
     public User getUserById(int id) {
         if (userRepository.findById(id).isEmpty()) {
             throw new RuntimeException("User not found");

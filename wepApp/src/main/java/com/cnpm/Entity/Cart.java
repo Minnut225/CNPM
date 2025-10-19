@@ -4,7 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 
 @Entity
@@ -18,30 +27,55 @@ public class Cart {
     @Column(name = "userId")
     private int userId;
 
-    //Constructors
-    public Cart() {}
+    @Column(name = "totalPrice")
+    private double totalPrice;
 
-    public Cart(int id, int userId) {
-        this.id = id;
-        this.userId = userId;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<CartItem> cartItems = new ArrayList<>();
 
+    // Constructors
+    public Cart() {
     }
 
-    //Getters and Setters
-    public int getId(){
+    public Cart(int id, int userId, double totalPrice) {
+        this.id = id;
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+    }
+
+    // Getters and Setters
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getUserId(){
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId){
+    public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void addCartItem(Product product, int quantity) {
+        CartItem item = new CartItem(this, product, quantity, product.getPrice());
+        cartItems.add(item);
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
 }

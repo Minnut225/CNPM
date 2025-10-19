@@ -2,6 +2,7 @@ package com.cnpm.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.cnpm.Service.CartService;
 import com.cnpm.Service.OrderService;
+import com.cnpm.DTO.OrderDTO;
 import com.cnpm.Entity.Order;
 import java.util.List;
 
@@ -22,9 +25,11 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderController {
     private final OrderService orderService;
+    private final CartService cartService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, CartService cartService) {
         this.orderService = orderService;
+        this.cartService = cartService;
     }
 
     @GetMapping("")
@@ -33,9 +38,9 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Order> findById(@PathVariable int id) {
+    ResponseEntity<OrderDTO> findById(@PathVariable int id) {
 
-        Order order = orderService.getOrderById(id);
+        OrderDTO order = orderService.getOrderById(id);
         if (order == null) {
             throw new RuntimeException("Order not found");
         }
@@ -62,4 +67,22 @@ public class OrderController {
     void delete(@PathVariable int id) {
         orderService.deleteOrderById(id);
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PostMapping("addFromCart/{userId}")
+    void addOrderFromCart(@PathVariable int userId,
+                        @RequestParam String payment,
+                        @RequestParam String paymentMethod,
+                        @RequestParam String shipping_address) {
+        orderService.createOrderFromCart(userId, payment, paymentMethod, shipping_address);
+    }
+    
+    // Cập nhật trạng thái đơn hàng
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}/status")
+    void updateOrderStatus(@PathVariable int id, 
+                        @RequestParam String status) {
+        orderService.updateOrderStatus(id, status);
+    }
+    
 }

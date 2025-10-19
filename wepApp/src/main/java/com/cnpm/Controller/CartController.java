@@ -2,6 +2,7 @@ package com.cnpm.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-
 import java.util.List;
-import java.util.Optional;
+
+import com.cnpm.DTO.CartDTO;
 import com.cnpm.Entity.Cart;
 import com.cnpm.Service.CartService;
 
@@ -30,19 +31,20 @@ public class CartController {
     }
 
     @GetMapping("")
-    List<Cart> findAll() {
-        return cartService.getAllCarts();
+    ResponseEntity<List<CartDTO>> findAll() {
+        return ResponseEntity.ok(cartService.getAllCarts());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Cart> findById(@PathVariable int id) {
+    ResponseEntity<CartDTO> findById(@PathVariable int id) {
 
-        Cart cart = cartService.getCartById(id);
+        CartDTO cart = cartService.getCartById(id);
         if (cart == null) {
             throw new RuntimeException("Cart not found");
         }
         return ResponseEntity.ok(cart);
     }
+
 
     // POST
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,7 +53,7 @@ public class CartController {
         cartService.saveCart(cart);
     }
 
-    // PUT 
+    // PUT
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     void update(@RequestBody Cart cart, @PathVariable int id) {
@@ -64,4 +66,23 @@ public class CartController {
     void delete(@PathVariable int id) {
         cartService.deleteCartById(id);
     }
+
+    // Add to cart
+    @PostMapping("/add/{userId}/{productId}")
+    public ResponseEntity<String> addToCart(
+            @PathVariable int userId,
+            @PathVariable int productId,
+            @RequestParam(defaultValue = "1") int quantity) {
+
+        cartService.addToCart(userId, productId, quantity);
+        return ResponseEntity.ok("Product added to cart successfully!");
+    }
+
+    // Delete all cart items by userId
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<String> deleteAllCartItems(@PathVariable int userId) {
+        cartService.deleteAllCartItemsByUserId(userId);
+        return ResponseEntity.ok("All cart items deleted successfully!");
+    }
+
 }

@@ -22,8 +22,19 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+
+        // ✅ Bỏ qua filter cho các API public
+        if (path.startsWith("/api/auth/") ||
+                path.startsWith("/api/payments/") ||
+                path.startsWith("/api/products/") ||
+                path.startsWith("/api/carts/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -32,13 +43,13 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             if (tokenProvider.validateToken(token)) {
                 String username = tokenProvider.getUsernameFromToken(token);
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, List.of());
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username,
+                        null, List.of());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
         filterChain.doFilter(request, response);
     }
-}
 
+}

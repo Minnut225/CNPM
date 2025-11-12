@@ -17,6 +17,7 @@ import com.cnpm.Repository.PaymentRepo;
 import com.cnpm.Repository.CartRepo;
 import com.cnpm.Repository.ProductRepo;
 import com.cnpm.Entity.Product;
+import com.cnpm.Entity.Payment;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -101,13 +102,22 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem cartItem : cart.getCartItems()) {
             order.addOrderItems(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getPrice());
         }
-        order.setStatus("new-orders");
+        order.setStatus("Pending");
         order.setOrderDate(LocalDateTime.now());
         order.setRecipientName(recipientName);
         order.setRecipientPhone(recipientPhone);
         order.setDeliveryAddress(shipping_address);
         order.setTotalPrice(cart.getTotalPrice());
         order = orderRepo.save(order);
+
+        Payment payment = new Payment();
+        payment.setOrderId(order.getOrderId());
+        payment.setPaymentMethod(payment_method);
+        payment.setAmount(order.getTotalPrice());
+        payment.setStatus("UNPAID");
+        payment.setPaymentDate(LocalDateTime.now());
+        paymentRepo.save(payment);
+        // Đảm bảo entity được cập nhật đầy đủ
         entityManager.refresh(order);
         // Xóa giỏ hàng sau khi tạo đơn hàng
         cart.getCartItems().clear();
@@ -137,9 +147,10 @@ public class OrderServiceImpl implements OrderService {
                         item.getProduct().getPrice() // include price in DTO
                 ))
                 .collect(Collectors.toList()));
-        dto.setPaymentMethod(paymentRepo.findByOrderId(order.getOrderId())
-                .map(payment -> payment.getPaymentMethod())
-                .orElse(null));
+        Payment payment = paymentRepo.findByOrderId(order.getOrderId()).orElse(null);
+        dto.setPaymentMethod(payment != null ? payment.getPaymentMethod() : null);
+        dto.setPaymentStatus(payment != null ? payment.getStatus() : null);
+
         return dto;
     }
 

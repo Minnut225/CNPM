@@ -18,4 +18,8 @@ public interface ProductService {
     void deleteById(int id);
 
     Product updateProductStatus(int id, String status);
+
+    Product changeProductInfo(int id, String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId);
+
+    Product addProduct(String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId);
 }

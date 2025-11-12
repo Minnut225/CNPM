@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.cnpm.DTO.UserDTO;
 import com.cnpm.Entity.User;
 import com.cnpm.Service.UserService;
 
@@ -63,5 +65,18 @@ public class UserController {
     @DeleteMapping("/{id}")
     void delete(@PathVariable int id) {
         userService.deleteByUserId(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/change-password/{id}")
+    ResponseEntity<?> changePassword(@PathVariable int id, @RequestBody String newPassword) {
+        return ResponseEntity.ok(userService.changePassword(id, newPassword));
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/change-info/{id}")
+    ResponseEntity<?> changeInfo(@PathVariable int id, 
+                                @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.changeInfo(id, userDTO.getFullName(), userDTO.getPhone(), userDTO.getAddress(), userDTO.getEmail()));
     }
 }

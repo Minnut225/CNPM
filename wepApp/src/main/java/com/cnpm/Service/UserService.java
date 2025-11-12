@@ -20,4 +20,8 @@ public interface UserService {
     
     void deleteByUserId(int id);
 
+    User changePassword(int id, String newPassword);
+
+    User changeInfo(int id, String fullName, String phone, String address, String email);
+
 }

@@ -51,13 +51,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         try {
             // 1. Tạo bản ghi Payment trong DB
-            Payment payment = new Payment();
-            payment.setOrderId(order.getOrderId());
-            payment.setAmount(order.getTotalPrice());
-            payment.setPaymentMethod(method);
-            payment.setStatus("UNPAID");
-            payment.setPaymentDate(LocalDateTime.now());
-            paymentRepo.save(payment);
+            Payment payment = paymentRepo.findByOrderId(orderId).orElse(null);
+            if (payment == null) {
+                return new PaymentResponse(false, "Payment record not found for order ID: " + orderId, null, null);
+            }
 
             // 2. Build URL VNPAY sandbox
             String paymentUrl = buildVnpayUrl(request, order, payment);
@@ -79,8 +76,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment updateStatus(int paymentId, String status) {
-        Payment payment = paymentRepo.findByPaymentId(paymentId).orElse(null);
+    public Payment updateStatus(int orderId, String status) {
+        Payment payment = paymentRepo.findByOrderId(orderId).orElse(null);
         if (payment != null) {
             payment.setStatus(status);
             paymentRepo.save(payment);
@@ -96,7 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
     private String buildVnpayUrl(HttpServletRequest request, Order order, Payment payment) throws Exception {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_TxnRef = VNPAYConfig.getRandomNumber(8);
+        String vnp_TxnRef = String.valueOf(order.getOrderId());
         String vnp_IpAddr = VNPAYConfig.getIpAddress(request);
         String vnp_TmnCode = VNPAYConfig.vnp_TmnCode;
         String orderType = "other";

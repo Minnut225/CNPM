@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
 
-    Optional<User> findByUserId(int userId);
+    User findByUserId(int userId);
 
     // @Query("SELECT u FROM Users u WHERE u.fullName = :fullName")
     Optional<User> findByFullName(@Param("fullName") String fullName);

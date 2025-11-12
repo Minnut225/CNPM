@@ -29,10 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUserId(int id) {
-        if (userRepository.findByUserId(id).isEmpty()) {
+        if (userRepository.findByUserId(id) == null) {
             throw new RuntimeException("User not found");
         }
-        return userRepository.findById(id).get();
+        return userRepository.findByUserId(id);
     }
 
     @Override
@@ -50,5 +50,21 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public User changePassword(int id, String newPassword) {
+        User user = getUserByUserId(id);
+        user.setPassword(newPassword);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User changeInfo(int id, String fullName, String phone, String address, String email) {
+        User user = userRepository.findByUserId(id);
+        user.setFullName(fullName);
+        user.setPhone(phone);
+        user.setAddress(address);
+        user.setEmail(email);
+        return userRepository.save(user);
+    }
     
 }

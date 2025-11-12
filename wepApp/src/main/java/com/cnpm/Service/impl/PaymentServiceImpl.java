@@ -5,6 +5,7 @@ import com.cnpm.Entity.Order;
 import com.cnpm.Entity.Payment;
 import com.cnpm.Repository.OrderRepo;
 import com.cnpm.Service.PaymentService;
+import com.cnpm.DTO.PaymentDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -13,8 +14,6 @@ import com.cnpm.Config.VNPAYConfig;
 import org.springframework.stereotype.Service;
 import com.cnpm.Repository.PaymentRepo;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -29,18 +28,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final OrderRepo orderRepo;
     private final PaymentRepo paymentRepo;
-    private final VNPAYConfig vnpayConfig;
 
-    public PaymentServiceImpl(OrderRepo orderRepo, PaymentRepo paymentRepo, VNPAYConfig vnpayConfig) {
+    public PaymentServiceImpl(OrderRepo orderRepo, PaymentRepo paymentRepo) {
         this.orderRepo = orderRepo;
         this.paymentRepo = paymentRepo;
-        this.vnpayConfig = vnpayConfig;
     }
 
     @Override
     public PaymentResponse createPayment(int orderId, double amount, String method, HttpServletRequest request) {
 
-        Optional<Order> optionalOrder = orderRepo.findById(orderId);
+        Optional<Order> optionalOrder = orderRepo.findByOrderId(orderId);
         if (!optionalOrder.isPresent()) {
             return new PaymentResponse(false, "Order not found with ID: " + orderId, null, null);
         }
@@ -55,11 +52,11 @@ public class PaymentServiceImpl implements PaymentService {
         try {
             // 1. Tạo bản ghi Payment trong DB
             Payment payment = new Payment();
-            payment.setOrderId(order.getId());
+            payment.setOrderId(order.getOrderId());
             payment.setAmount(order.getTotalPrice());
-            payment.setMethod(order.getPaymentMethod());
+            payment.setPaymentMethod(method);
             payment.setStatus("UNPAID");
-            payment.setCreatedAt(LocalDateTime.now());
+            payment.setPaymentDate(LocalDateTime.now());
             paymentRepo.save(payment);
 
             // 2. Build URL VNPAY sandbox
@@ -82,8 +79,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment updateStatus(int orderId, String status) {
-        Payment payment = paymentRepo.findByOrderId(orderId).orElse(null);
+    public Payment updateStatus(int paymentId, String status) {
+        Payment payment = paymentRepo.findByPaymentId(paymentId).orElse(null);
         if (payment != null) {
             payment.setStatus(status);
             paymentRepo.save(payment);
@@ -112,7 +109,7 @@ public class PaymentServiceImpl implements PaymentService {
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", "NCB");
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + order.getId());
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang: " + order.getOrderId());
         vnp_Params.put("vnp_OrderType", orderType);
 
         String locate = "vn";
@@ -168,4 +165,5 @@ public class PaymentServiceImpl implements PaymentService {
 
         return paymentUrl;
     }
+
 }

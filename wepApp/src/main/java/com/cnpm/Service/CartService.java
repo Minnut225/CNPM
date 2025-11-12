@@ -18,12 +18,14 @@ public interface CartService {
 
     void deleteCartById(int id);
 
-    void addToCart(int userId, int productId, int quantity);
+    CartDTO addToCart(int userId, int productId, int quantity);
 
     void deleteAllCartItemsByUserId(int userId);
 
-    
+    List<CartDTO> getCartItemsByUserId(int userId);
 
-    //CartItemDTO updateCartItemQuantity(int cartItemId, int quantity);
+    CartDTO deleteCartItemById(int userId, int productId);
+    
+    CartDTO updateCartItemQuantity(int userId, int productId, int delta);
     
 }

@@ -69,20 +69,41 @@ public class CartController {
 
     // Add to cart
     @PostMapping("/add/{userId}/{productId}")
-    public ResponseEntity<String> addToCart(
+    public ResponseEntity<?> addToCart(
             @PathVariable int userId,
             @PathVariable int productId,
             @RequestParam(defaultValue = "1") int quantity) {
 
-        cartService.addToCart(userId, productId, quantity);
-        return ResponseEntity.ok("Product added to cart successfully!");
+        return ResponseEntity.ok(cartService.addToCart(userId, productId, quantity));
+    }
+
+    // Get cart items by userId
+    @GetMapping("/cartItems/{userId}")
+    public ResponseEntity<List<CartDTO>> getCartItemsByUserId(@PathVariable int userId) {
+        List<CartDTO> cartItems = cartService.getCartItemsByUserId(userId);
+        return ResponseEntity.ok(cartItems);
     }
 
     // Delete all cart items by userId
-    @DeleteMapping("/delete/{userId}")
+    @DeleteMapping("/clearCart/{userId}")
     public ResponseEntity<String> deleteAllCartItems(@PathVariable int userId) {
         cartService.deleteAllCartItemsByUserId(userId);
         return ResponseEntity.ok("All cart items deleted successfully!");
     }
 
+    // Update item quantity in cart by itemId
+    @PutMapping("/update/{userId}/{productId}")
+    public ResponseEntity<?> updateCartItemQuantity(
+            @PathVariable int userId,
+            @PathVariable int productId,
+            @RequestParam int delta) {
+        return ResponseEntity.ok(cartService.updateCartItemQuantity(userId, productId, delta));
+    }
+
+    @DeleteMapping("/removeItem/{userId}/{productId}")
+    public ResponseEntity<?> removeItemFromCart(
+            @PathVariable int userId,
+            @PathVariable int productId) { // Giảm số lượng đi 1
+        return ResponseEntity.ok(cartService.deleteCartItemById(userId, productId));
+    }
 }

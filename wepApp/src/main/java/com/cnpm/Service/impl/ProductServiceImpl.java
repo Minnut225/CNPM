@@ -38,4 +38,12 @@ public class ProductServiceImpl implements ProductService{
     public void deleteById(int id) {
         productRepo.deleteById(id);
     }
+
+    @Override
+    public Product updateProductStatus(int id, String status) {
+        Product product = productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setAvailable(status.equals("on-sale")? true : false);
+        return productRepo.save(product);
+    }
 }

@@ -24,12 +24,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(String name) {
-        return userRepository.findByName(name).orElse(null);
+        return userRepository.findByFullName(name).orElse(null);
     }
 
     @Override
-    public User getUserById(int id) {
-        if (userRepository.findById(id).isEmpty()) {
+    public User getUserByUserId(int id) {
+        if (userRepository.findByUserId(id).isEmpty()) {
             throw new RuntimeException("User not found");
         }
         return userRepository.findById(id).get();
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteByUserId(int id) {
         userRepository.deleteById(id);
     }
 

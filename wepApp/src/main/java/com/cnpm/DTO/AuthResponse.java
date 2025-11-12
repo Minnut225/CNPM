@@ -4,14 +4,24 @@ import lombok.Data;
 
 @Data
 public class AuthResponse {
+    private int userId;
     private String token;
     private String message;
     private String role;
 
-    public AuthResponse(String token, String message, String role) {
+    public AuthResponse(int userId, String token, String message, String role) {
+        this.userId = userId;
         this.token = token;
         this.message = message;
         this.role = role;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getToken() {

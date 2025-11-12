@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/{id}")
     ResponseEntity<User> findById(@PathVariable int id) {
 
-        User user = userService.getUserById(id);
+        User user = userService.getUserByUserId(id);
         if (user == null) {
             throw new RuntimeException("User not found");
         }
@@ -62,6 +62,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     void delete(@PathVariable int id) {
-        userService.deleteById(id);
+        userService.deleteByUserId(id);
     }
 }

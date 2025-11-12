@@ -16,4 +16,6 @@ public interface ProductService {
     Product saveProduct(Product product);
     
     void deleteById(int id);
+
+    Product updateProductStatus(int id, String status);
 }

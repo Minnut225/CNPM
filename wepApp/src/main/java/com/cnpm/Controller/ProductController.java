@@ -2,11 +2,13 @@ package com.cnpm.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -63,5 +65,12 @@ public class ProductController {
     @DeleteMapping("/{id}")
     void delete(@PathVariable int id) {
         productService.deleteById(id);
+    }
+
+    // Cập nhật status sản phẩm
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}/status")
+    ResponseEntity<?> updateStatus(@PathVariable int id, @RequestParam String status) {
+        return ResponseEntity.ok(productService.updateProductStatus(id, status));
     }
 }

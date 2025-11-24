@@ -27,14 +27,14 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
         // ✅ Bỏ qua filter cho các API public
-        if (path.startsWith("/api/auth/") ||
-                path.startsWith("/api/payments/") ||
-                path.startsWith("/api/products/") ||
-                path.startsWith("/api/carts/") ||
-                path.startsWith("/api/users/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        // if (path.startsWith("/api/auth/") ||
+        //         path.startsWith("/api/payments/") ||
+        //         path.startsWith("/api/products/") ||
+        //         path.startsWith("/api/carts/") ||
+        //         path.startsWith("/api/users/")) {
+        //     filterChain.doFilter(request, response);
+        //     return;
+        // }
 
         String authHeader = request.getHeader("Authorization");
 

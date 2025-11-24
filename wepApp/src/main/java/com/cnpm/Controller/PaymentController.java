@@ -82,4 +82,12 @@ public class PaymentController {
 
         return ResponseEntity.ok(result);
     }
+
+    // Cập nhật trạng thái Payment
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Payment> updatePaymentStatus(
+            @PathVariable int id,
+            @RequestParam String status) {
+        return ResponseEntity.ok(paymentService.updateStatus(id, status));
+    }
 }

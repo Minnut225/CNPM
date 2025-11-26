@@ -16,6 +16,7 @@ import com.cnpm.Repository.OrderRepo;
 import com.cnpm.Repository.PaymentRepo;
 import com.cnpm.Repository.CartRepo;
 import com.cnpm.Repository.ProductRepo;
+import com.cnpm.Repository.DeliveryRepo;
 import com.cnpm.Entity.Product;
 import com.cnpm.Entity.Payment;
 
@@ -30,15 +31,17 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepo cartRepo;
     private final ProductRepo productRepo;
     private final PaymentRepo paymentRepo;
+    private final DeliveryRepo deliveryRepo;
     
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OrderServiceImpl(OrderRepo orderRepo, CartRepo cartRepo, ProductRepo productRepo, PaymentRepo paymentRepo) {
+    public OrderServiceImpl(OrderRepo orderRepo, CartRepo cartRepo, ProductRepo productRepo, PaymentRepo paymentRepo, DeliveryRepo deliveryRepo) {
         this.orderRepo = orderRepo;
         this.cartRepo = cartRepo;
         this.productRepo = productRepo;
         this.paymentRepo = paymentRepo;
+        this.deliveryRepo = deliveryRepo;
     }
 
     @Override

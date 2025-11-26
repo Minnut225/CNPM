@@ -52,27 +52,28 @@ INSERT INTO Products (name, description, price, category, imageUrl) VALUES
 -- =========================
 -- ORDERS (20 orders, each belongs to userId 1..20)
 -- =========================
-INSERT INTO Orders (userId, orderDate, status, totalPrice, payment, shipping_address) VALUES
-(1, CURRENT_TIMESTAMP, 'PENDING', 2300.0, 'CREDIT_CARD', 'Address 1'),
-(2, CURRENT_TIMESTAMP, 'SHIPPED', 1600.0, 'PAYPAL', 'Address 2'),
-(3, CURRENT_TIMESTAMP, 'DELIVERED', 1500.0, 'BANK_TRANSFER', 'Address 3'),
-(4, CURRENT_TIMESTAMP, 'PENDING', 1200.0, 'CREDIT_CARD', 'Address 4'),
-(5, CURRENT_TIMESTAMP, 'SHIPPED', 400.0, 'PAYPAL', 'Address 5'),
-(6, CURRENT_TIMESTAMP, 'DELIVERED', 1700.0, 'BANK_TRANSFER', 'Address 6'),
-(7, CURRENT_TIMESTAMP, 'PENDING', 650.0, 'CREDIT_CARD', 'Address 7'),
-(8, CURRENT_TIMESTAMP, 'SHIPPED', 900.0, 'PAYPAL', 'Address 8'),
-(9, CURRENT_TIMESTAMP, 'DELIVERED', 300.0, 'BANK_TRANSFER', 'Address 9'),
-(10, CURRENT_TIMESTAMP, 'PENDING', 750.0, 'CREDIT_CARD', 'Address 10'),
-(11, CURRENT_TIMESTAMP, 'SHIPPED', 1100.0, 'PAYPAL', 'Address 11'),
-(12, CURRENT_TIMESTAMP, 'DELIVERED', 1600.0, 'BANK_TRANSFER', 'Address 12'),
-(13, CURRENT_TIMESTAMP, 'PENDING', 900.0, 'CREDIT_CARD', 'Address 13'),
-(14, CURRENT_TIMESTAMP, 'SHIPPED', 1980.0, 'PAYPAL', 'Address 14'),
-(15, CURRENT_TIMESTAMP, 'DELIVERED', 1250.0, 'BANK_TRANSFER', 'Address 15'),
-(16, CURRENT_TIMESTAMP, 'PENDING', 330.0, 'CREDIT_CARD', 'Address 16'),
-(17, CURRENT_TIMESTAMP, 'SHIPPED', 960.0, 'PAYPAL', 'Address 17'),
-(18, CURRENT_TIMESTAMP, 'PENDING', 720.0, 'CREDIT_CARD', 'Address 18'),
-(19, CURRENT_TIMESTAMP, 'SHIPPED', 1300.0, 'PAYPAL', 'Address 19'),
-(20, CURRENT_TIMESTAMP, 'PENDING', 2100.0, 'BANK_TRANSFER', 'Address 20');
+INSERT INTO Orders (userId, orderDate, status, totalPrice, payment, paymentMethod, shipping_address) VALUES
+(1,  CURRENT_TIMESTAMP, 'PENDING',   2300.0, 'UNPAID', 'COD',    'Address 1'),
+(2,  CURRENT_TIMESTAMP, 'SHIPPED',   1600.0, 'PAID',   'VNPAY',  'Address 2'),
+(3,  CURRENT_TIMESTAMP, 'DELIVERED', 1500.0, 'PAID',   'MOMO',   'Address 3'),
+(4,  CURRENT_TIMESTAMP, 'PENDING',   1200000.0, 'UNPAID', 'COD',    'Address 4'),
+(5,  CURRENT_TIMESTAMP, 'SHIPPED',    400.0, 'PAID',   'VNPAY',  'Address 5'),
+(6,  CURRENT_TIMESTAMP, 'DELIVERED', 1700.0, 'PAID',   'MOMO',   'Address 6'),
+(7,  CURRENT_TIMESTAMP, 'PENDING',    650.0, 'UNPAID', 'COD',    'Address 7'),
+(8,  CURRENT_TIMESTAMP, 'SHIPPED',    900.0, 'PAID',   'VNPAY',  'Address 8'),
+(9,  CURRENT_TIMESTAMP, 'DELIVERED',  300.0, 'PAID',   'MOMO',   'Address 9'),
+(10, CURRENT_TIMESTAMP, 'CANCELLED',    750.0, 'UNPAID', 'COD',    'Address 10'),
+(11, CURRENT_TIMESTAMP, 'SHIPPED',   1100.0, 'PAID',   'VNPAY',  'Address 11'),
+(12, CURRENT_TIMESTAMP, 'DELIVERED', 1600.0, 'PAID',   'MOMO',   'Address 12'),
+(13, CURRENT_TIMESTAMP, 'CANCELLED',    900.0, 'UNPAID', 'COD',    'Address 13'),
+(14, CURRENT_TIMESTAMP, 'SHIPPED',   1980.0, 'PAID',   'VNPAY',  'Address 14'),
+(15, CURRENT_TIMESTAMP, 'DELIVERED', 1250.0, 'PAID',   'MOMO',   'Address 15'),
+(16, CURRENT_TIMESTAMP, 'PENDING',    330.0, 'UNPAID', 'COD',    'Address 16'),
+(17, CURRENT_TIMESTAMP, 'CANCELLED',    960.0, 'PAID',   'VNPAY',  'Address 17'),
+(18, CURRENT_TIMESTAMP, 'PENDING',    720.0, 'PAID',   'MOMO',   'Address 18'),
+(19, CURRENT_TIMESTAMP, 'SHIPPED',   1300.0, 'UNPAID', 'COD',    'Address 19'),
+(20, CURRENT_TIMESTAMP, 'PENDING',   2100.0, 'PAID',   'VNPAY',  'Address 20');
+
 
 -- =========================
 -- ORDER ITEMS (2–3 items per order)
@@ -102,31 +103,38 @@ INSERT INTO OrderItems (orderId, productId, quantity, price) VALUES
 -- =========================
 -- CARTS (20 carts, each belongs to userId 1..20)
 -- =========================
-INSERT INTO Carts (userId) VALUES
-(1),(2),(3),(4),(5),(6),(7),(8),(9),(10),
-(11),(12),(13),(14),(15),(16),(17),(18),(19),(20);
+INSERT INTO Carts (userId, totalPrice) VALUES
+(1, 300000), (2, 270000), (3, 350000), (4, 400000), (5, 480000),
+(6, 500000), (7, 600000), (8, 700000), (9, 800000), (10, 900000),
+(11, 1000000), (12, 1100000), (13, 1200000), (14, 1300000), (15, 1400000),
+(16, 1500000), (17, 1600000), (18, 1700000), (19, 1800000), (20, 1900000);
 
 -- =========================
 -- CART ITEMS (2–3 per cart)
 -- =========================
-INSERT INTO CartItems (cartId, productId, quantity) VALUES
-(1, 1, 1), (1, 2, 2),
-(2, 3, 1), (2, 5, 1),
-(3, 4, 2), (3, 6, 1),
-(4, 7, 1), (4, 8, 2),
-(5, 9, 1), (5, 10, 1),
-(6, 11, 2), (6, 12, 1),
-(7, 13, 1), (7, 14, 2),
-(8, 15, 1), (8, 16, 1),
-(9, 17, 1), (9, 18, 1),
-(10, 19, 2), (10, 20, 1),
-(11, 1, 1), (11, 3, 1),
-(12, 5, 1), (12, 7, 1),
-(13, 9, 2), (13, 11, 1),
-(14, 13, 1), (14, 15, 1),
-(15, 17, 1), (15, 19, 1),
-(16, 2, 2), (16, 4, 1),
-(17, 6, 1), (17, 8, 2),
-(18, 10, 1), (18, 12, 1),
-(19, 14, 1), (19, 16, 1),
-(20, 18, 2), (20, 20, 1);
+INSERT INTO CartItems (cartId, productId, quantity, price) VALUES
+(1, 1, 1, 100000), (1, 2, 2, 200000),
+(2, 3, 1, 150000), (2, 5, 1, 120000),
+(3, 4, 2, 180000), (3, 6, 1, 170000),
+(4, 7, 1, 210000), (4, 8, 2, 220000),
+(5, 9, 1, 250000), (5, 10, 1, 230000),
+(6, 11, 2, 300000), (6, 12, 1, 270000),
+(7, 13, 1, 310000), (7, 14, 2, 320000),
+(8, 15, 1, 350000), (8, 16, 1, 360000),
+(9, 17, 1, 370000), (9, 18, 1, 380000),
+(10, 19, 2, 400000), (10, 20, 1, 420000);
+
+-- =========================
+-- PAYMENTS (10 payments for orders 2,3,5,6,8,9,11,12,14,15)
+-- =========================
+INSERT INTO Payments (orderId, amount, paymentDate, paymentMethod, status) VALUES 
+(2, 1600.0, CURRENT_TIMESTAMP, 'VNPAY', 'SUCCESS'),
+(3, 1500.0, CURRENT_TIMESTAMP, 'MOMO', 'FAILED'),
+(5, 400.0, CURRENT_TIMESTAMP, 'VNPAY', 'PENDING'),
+(6, 1700.0, CURRENT_TIMESTAMP, 'MOMO', 'SUCCESS'),
+(8, 900.0, CURRENT_TIMESTAMP, 'VNPAY', 'CANCELLED'),
+(9, 300.0, CURRENT_TIMESTAMP, 'MOMO', 'SUCCESS'),
+(11, 1100.0, CURRENT_TIMESTAMP, 'VNPAY', 'FAILED'),
+(12, 1600.0, CURRENT_TIMESTAMP, 'MOMO', 'SUCCESS'),
+(14, 1980.0, CURRENT_TIMESTAMP, 'VNPAY', 'PENDING');
+-- (15, 1250.0, CURRENT_TIMESTAMP, 'MOMO', 'SUCCESS');

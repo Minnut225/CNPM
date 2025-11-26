@@ -23,11 +23,10 @@ CREATE TABLE Products (
 CREATE TABLE Orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
-    orderDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'PENDING',
     totalPrice DOUBLE,
     payment VARCHAR(50),
-    paymentMethod VARCHAR(50),
     shipping_address VARCHAR(255),
     FOREIGN KEY (userId) REFERENCES Users(id)
 );
@@ -47,7 +46,6 @@ CREATE TABLE OrderItems (
 CREATE TABLE Carts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     userId INT,
-    totalPrice DOUBLE DEFAULT 0,
     FOREIGN KEY (userId) REFERENCES Users(id)
 );
 
@@ -57,18 +55,6 @@ CREATE TABLE CartItems (
     cartId INT,
     productId INT,
     quantity INT,
-    price DOUBLE,
     FOREIGN KEY (cartId) REFERENCES Carts(id),
     FOREIGN KEY (productId) REFERENCES Products(id)
-);
-
--- Bảng payments
-CREATE TABLE Payments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    orderId INT,
-    amount DOUBLE,
-    paymentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    paymentMethod VARCHAR(50),
-    status VARCHAR(50),
-    FOREIGN KEY (orderId) REFERENCES Orders(id)
 );

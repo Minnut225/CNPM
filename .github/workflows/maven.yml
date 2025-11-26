@@ -26,4 +26,4 @@ jobs:
     # -B: Batch mode (ít log rác hơn)
     # package: Chạy test xong sẽ đóng gói ra file .jar
     - name: Build and Test with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file wepApp/pom.xml

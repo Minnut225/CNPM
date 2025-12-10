@@ -21,4 +21,5 @@ public class OrderDTO {
     private List<ItemDTO> orderItems;
     private String paymentMethod;
     private String paymentStatus;
+    private int restaurantId;
 }

@@ -11,6 +11,10 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 
 @Entity
@@ -26,12 +30,15 @@ public class Delivery {
 
     @OneToOne
     @JoinColumn(name = "orderId")
+    @JsonIgnoreProperties({"delivery", "orderItems", "user"})
     private Order order;
 
     @ManyToOne 
     @JoinColumn(name = "droneId")
+    @JsonIgnoreProperties("deliveries")
     private Drone drone;
 
     @Column(name = "deliveryStatus")
     private String deliveryStatus;
+
 }

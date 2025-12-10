@@ -18,6 +18,7 @@ import com.cnpm.Repository.CartRepo;
 import com.cnpm.Repository.ProductRepo;
 import com.cnpm.Repository.DeliveryRepo;
 import com.cnpm.Entity.Product;
+import com.cnpm.Entity.Restaurant;
 import com.cnpm.Entity.Payment;
 
 import java.util.*;
@@ -100,6 +101,9 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Cart is empty");
         }
 
+        CartItem firstItem = cart.getCartItems().get(0);
+        Restaurant restaurant = firstItem.getProduct().getRestaurant();
+
         Order order = new Order();
         order.setUserId(cart.getUser().getUserId());
         for (CartItem cartItem : cart.getCartItems()) {
@@ -111,6 +115,7 @@ public class OrderServiceImpl implements OrderService {
         order.setRecipientPhone(recipientPhone);
         order.setDeliveryAddress(shipping_address);
         order.setTotalPrice(cart.getTotalPrice());
+        order.setRestaurant(restaurant);
         order = orderRepo.save(order);
 
         Payment payment = new Payment();
@@ -127,6 +132,14 @@ public class OrderServiceImpl implements OrderService {
         cart.setTotalPrice(0);
         cartRepo.save(cart);
         return convertToDTO(order);
+    }
+
+    @Override
+    public List<OrderDTO> getOrdersByRestaurant(Restaurant restaurant) {
+        List<Order> orders = orderRepo.findByRestaurant(restaurant);
+        return orders.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     // Helper: convert Order Entity -> OrderDTO
@@ -153,6 +166,7 @@ public class OrderServiceImpl implements OrderService {
         Payment payment = paymentRepo.findByOrderId(order.getOrderId()).orElse(null);
         dto.setPaymentMethod(payment != null ? payment.getPaymentMethod() : null);
         dto.setPaymentStatus(payment != null ? payment.getStatus() : null);
+        dto.setRestaurantId(order.getRestaurant().getRestaurantId());
 
         return dto;
     }

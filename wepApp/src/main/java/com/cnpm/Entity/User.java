@@ -4,7 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -38,5 +42,9 @@ public class User {
 
     @Column(name = "role")
     private String role;
+
+    @OneToOne(mappedBy = "owner")
+    @JsonIgnore
+    private Restaurant restaurant;
 
 }

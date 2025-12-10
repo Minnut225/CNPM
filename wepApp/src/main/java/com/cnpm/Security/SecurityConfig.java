@@ -29,6 +29,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/payments/**").permitAll()
                         .requestMatchers("/api/orders/**").permitAll()
                         .requestMatchers("/api/carts/**").permitAll()
+                        .requestMatchers("/api/restaurants/**").permitAll()
+                        .requestMatchers("/api/drones/**").permitAll()
+                        .requestMatchers("/api/deliveries/**").permitAll()
+                        .requestMatchers("/api/stats/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .anyRequest().authenticated() // các API khác require token

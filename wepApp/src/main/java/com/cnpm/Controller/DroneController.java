@@ -12,7 +12,7 @@ import com.cnpm.Entity.Drone;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/drone")
+@RequestMapping("api/drones")
 @CrossOrigin(origins = "http://localhost:5173")
 public class DroneController {
     private final DroneService droneService;
@@ -36,9 +36,9 @@ public class DroneController {
         return droneService.getDroneByStatus(status);
     }
 
-    @PutMapping("/{id}/location/{newLocation}")
-    public Drone updateDroneLocation(@PathVariable int id, @PathVariable String newLocation) {
-        return droneService.updateDroneLocation(id, newLocation);
+    @PutMapping("/{id}/location/{newLatitude}/{newLongitude}")
+    public Drone updateDroneLocation(@PathVariable int id, @PathVariable Double newLatitude, @PathVariable Double newLongitude) {
+        return droneService.updateDroneLocation(id, newLatitude, newLongitude);
     }
 
 }

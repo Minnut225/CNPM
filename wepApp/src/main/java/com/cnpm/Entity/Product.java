@@ -44,4 +44,7 @@ public class Product {
     @JoinColumn(name = "categoryId", referencedColumnName = "categoryId")
     private Category category;
     
+    @ManyToOne
+    @JoinColumn(name = "restaurantId")
+    private Restaurant restaurant;
 }

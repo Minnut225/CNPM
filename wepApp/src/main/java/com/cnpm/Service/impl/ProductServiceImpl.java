@@ -5,6 +5,7 @@ import com.cnpm.Entity.Product;
 import com.cnpm.Repository.ProductRepo;
 import java.util.List;
 import com.cnpm.Repository.CategoryRepo;
+import com.cnpm.Entity.Restaurant;
 
 import org.springframework.stereotype.Service;
 
@@ -76,5 +77,10 @@ public class ProductServiceImpl implements ProductService{
         product.setCategory(categoryRepo.findByCategoryId(categoryId).orElseThrow(() -> new RuntimeException("Category not found")));
 
         return productRepo.save(product);
+    }
+
+    @Override
+    public List<Product> getProductsByRestaurant(Restaurant restaurant) {
+        return productRepo.findByRestaurant(restaurant);
     }
 }

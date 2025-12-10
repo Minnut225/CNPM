@@ -89,7 +89,7 @@ public class ProductController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/{id}/add")
+    @PostMapping("/add")
     ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO) {
         return ResponseEntity.ok(productService.addProduct(
                 productDTO.getProductName(),

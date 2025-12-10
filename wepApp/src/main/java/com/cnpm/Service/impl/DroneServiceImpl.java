@@ -43,10 +43,11 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
-    public Drone updateDroneLocation(int id, String newLocation) {
+    public Drone updateDroneLocation(int id, Double newLatitude, Double newLongitude) {
         Drone drone = droneRepo.findById(id).orElse(null);
         if (drone != null) {
-            drone.setCurrentLocation(newLocation);
+            drone.setLatitude(newLatitude);
+            drone.setLongitude(newLongitude);
             droneRepo.save(drone);
         }
         return drone;

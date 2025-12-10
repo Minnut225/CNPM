@@ -4,30 +4,34 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Column;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Drones") // tên Table trong database
-public class Drone {
+@Table(name = "Restaurants")
+public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "droneId")
-    private int droneId;
+    @Column(name = "restaurantId")
+    private int restaurantId;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "restaurantName")
+    private String restaurantName;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private String phone;
 
     @Column(name = "latitude")
     private Double latitude;
@@ -35,6 +39,7 @@ public class Drone {
     @Column(name = "longitude")
     private Double longitude;
 
-    @OneToMany(mappedBy = "drone")
-    private List<Delivery> deliveries;
+    @OneToOne
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User owner;
 }

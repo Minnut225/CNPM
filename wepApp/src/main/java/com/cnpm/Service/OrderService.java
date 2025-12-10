@@ -1,6 +1,7 @@
 package com.cnpm.Service;
 
 import com.cnpm.Entity.Order;
+import com.cnpm.Entity.Restaurant;
 import com.cnpm.DTO.OrderDTO;
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface OrderService {
     OrderDTO updateOrderStatus(int orderId, String status);
 
     OrderDTO createOrderFromCart(int cartId, String payment_method, String recipientName, String recipientPhone, String shipping_address);
+
+    List<OrderDTO> getOrdersByRestaurant(Restaurant restaurant);
 }

@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
+    private int productId;
     private String productName;
     private String description;
     private double price;
     private String imageUrl;
     private boolean available; // isAvailable
     private int categoryId;
+    private int restaurantId;
 }

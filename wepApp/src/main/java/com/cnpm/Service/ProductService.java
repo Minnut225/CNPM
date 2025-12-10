@@ -1,6 +1,7 @@
 package com.cnpm.Service;
 
 import com.cnpm.Entity.Product;
+import com.cnpm.Entity.Restaurant;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface ProductService {
     Product changeProductInfo(int id, String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId);
 
     Product addProduct(String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId);
+
+    List<Product> getProductsByRestaurant(Restaurant restaurant);
 }

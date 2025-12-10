@@ -18,5 +18,5 @@ public interface DroneService {
 
     List<Drone> getDroneByStatus(String status);
 
-    Drone updateDroneLocation(int id, String newLocation);
+    Drone updateDroneLocation(int id, Double newLatitude, Double newLongitude);
 }

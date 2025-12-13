@@ -4,6 +4,7 @@ import com.cnpm.Entity.Order;
 import com.cnpm.Entity.Restaurant;
 import com.cnpm.DTO.OrderDTO;
 import java.util.List;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -25,4 +26,8 @@ public interface OrderService {
     OrderDTO createOrderFromCart(int cartId, String payment_method, String recipientName, String recipientPhone, String shipping_address);
 
     List<OrderDTO> getOrdersByRestaurant(Restaurant restaurant);
+
+    Double sumTotalPriceByRestaurantAndDate(Long restaurantId, LocalDateTime start, LocalDateTime end);
+    
+    Long countOrdersByRestaurantAndDate(Long restaurantId, LocalDateTime start, LocalDateTime end);
 }

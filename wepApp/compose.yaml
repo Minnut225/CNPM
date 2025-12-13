@@ -1,0 +1,32 @@
+services:
+  wepApp:
+    build: .
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:8080"
+    networks:
+      - app-net
+    volumes:
+      - ~/.m2:/root/.m2 # dùng cache Maven host, tránh lỗi tải dependency
+
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "5173:80"
+  #   depends_on:
+  #     - wepApp
+  #   networks:
+  #     - app-net
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: "Abc12345!"
+    ports:
+      - "1433:1433"
+
+networks:
+  app-net:
+    driver: bridge

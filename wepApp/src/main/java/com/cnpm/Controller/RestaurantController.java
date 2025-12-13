@@ -96,6 +96,7 @@ public class RestaurantController {
                                 dto.setAvailable(product.isAvailable());
                                 dto.setCategoryId(product.getCategory().getCategoryId());
                                 dto.setRestaurantId(product.getRestaurant().getRestaurantId());
+                                dto.setDiscount(product.getDiscount());
                                 return dto;
                             })
                             .toList();

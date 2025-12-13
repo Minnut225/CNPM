@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product changeProductInfo(int id, String productName, String description, double price, String imageUrl, boolean isAvailable, int categoryId) {
+    public Product changeProductInfo(int id, String productName, String description, double price, String imageUrl, boolean isAvailable, int categoryId, double discount) {
         Product product = productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
 
         product.setProductName(productName);
@@ -61,7 +61,7 @@ public class ProductServiceImpl implements ProductService{
         product.setAvailable(isAvailable);
         product.setImageUrl(imageUrl);
         product.setCategory(categoryRepo.findByCategoryId(categoryId).orElseThrow(() -> new RuntimeException("Category not found")));
-
+        product.setDiscount(discount);
         return productRepo.save(product);
     }
 

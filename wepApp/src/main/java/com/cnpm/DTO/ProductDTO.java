@@ -16,4 +16,5 @@ public class ProductDTO {
     private boolean available; // isAvailable
     private int categoryId;
     private int restaurantId;
+    private double discount;
 }

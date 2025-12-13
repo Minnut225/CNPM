@@ -13,6 +13,6 @@ public class ItemDTO {
     private String imageUrl;
     private int quantity;
     private double price; // Price at the time of adding to cart
-
+    private double discount;
 }
 

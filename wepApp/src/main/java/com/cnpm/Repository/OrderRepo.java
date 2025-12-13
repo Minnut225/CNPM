@@ -37,4 +37,16 @@ public interface OrderRepo extends JpaRepository<Order, Integer>{
                                         @Param("startDate") LocalDateTime startDate, 
                                         @Param("endDate") LocalDateTime endDate);
 
+    @Query("SELECT SUM(o.totalPrice) FROM com.cnpm.Entity.Order o " +
+           "WHERE (o.status = 'Completed' OR o.status = 'PAID') " +
+           "AND o.orderDate BETWEEN :startDate AND :endDate")
+    Double sumTotalPriceByDate(@Param("startDate") LocalDateTime startDate, 
+                               @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT COUNT(o) FROM com.cnpm.Entity.Order o " +
+           "WHERE (o.status = 'Completed' OR o.status = 'PAID') " +
+           "AND o.orderDate BETWEEN :startDate AND :endDate")
+    Long countOrdersByDate(@Param("startDate") LocalDateTime startDate, 
+                          @Param("endDate") LocalDateTime endDate);
+
 }

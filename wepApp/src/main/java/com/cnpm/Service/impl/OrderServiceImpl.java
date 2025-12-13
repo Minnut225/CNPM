@@ -106,15 +106,17 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = new Order();
         order.setUserId(cart.getUser().getUserId());
+        double totalPrice = 0;
         for (CartItem cartItem : cart.getCartItems()) {
             order.addOrderItems(cartItem.getProduct(), cartItem.getQuantity(), cartItem.getProduct().getPrice());
+            totalPrice += cartItem.getQuantity() * cartItem.getProduct().getPrice() * (1 - cartItem.getProduct().getDiscount()/100);
         }
         order.setStatus("Pending");
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(LocalDateTime.now());    
         order.setRecipientName(recipientName);
         order.setRecipientPhone(recipientPhone);
         order.setDeliveryAddress(shipping_address);
-        order.setTotalPrice(cart.getTotalPrice());
+        order.setTotalPrice(totalPrice);
         order.setRestaurant(restaurant);
         order = orderRepo.save(order);
 
@@ -160,7 +162,8 @@ public class OrderServiceImpl implements OrderService {
                         item.getProduct().getProductName(), // include product name in DTO
                         item.getProduct().getImageUrl(), // include image URL in DTO
                         item.getQuantity(),
-                        item.getProduct().getPrice() // include price in DTO
+                        item.getProduct().getPrice(),
+                        10.00 // include price in DTO
                 ))
                 .collect(Collectors.toList()));
         Payment payment = paymentRepo.findByOrderId(order.getOrderId()).orElse(null);
@@ -189,5 +192,21 @@ public class OrderServiceImpl implements OrderService {
             order.addOrderItems(product, itemDTO.getQuantity(), product.getPrice());
         }
         return order;
+    }
+
+    @Override
+    public Double sumTotalPriceByRestaurantAndDate(Long restaurantId, LocalDateTime start, LocalDateTime end) {
+        if (restaurantId == 0) {
+            return orderRepo.sumTotalPriceByDate(start, end);
+        }
+        return orderRepo.sumTotalPriceByRestaurantAndDate(restaurantId, start, end);
+    }
+
+    @Override
+    public Long countOrdersByRestaurantAndDate(Long restaurantId, LocalDateTime start, LocalDateTime end) {
+        if (restaurantId == 0) {
+            return orderRepo.countOrdersByDate(start, end);
+        }
+        return orderRepo.countOrdersByRestaurantAndDate(restaurantId, start, end);
     }
 }

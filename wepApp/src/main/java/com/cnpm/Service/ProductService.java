@@ -20,7 +20,7 @@ public interface ProductService {
 
     Product updateProductStatus(int id, String status);
 
-    Product changeProductInfo(int id, String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId);
+    Product changeProductInfo(int id, String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId, double discount);
 
     Product addProduct(String name, String description, double price, String imageUrl, boolean isAvailable, int categoryId);
 

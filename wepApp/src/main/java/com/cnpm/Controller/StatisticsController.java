@@ -1,6 +1,6 @@
 package com.cnpm.Controller;
 
-import com.cnpm.Repository.OrderRepo;
+import com.cnpm.Service.OrderService;
 import com.cnpm.DTO.RevenueDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,11 +17,12 @@ import java.time.LocalTime;
 @RequestMapping("/api/stats")
 public class StatisticsController {
 
-    @Autowired
-    private OrderRepo orderRepository;
-
+    private final OrderService orderService;
     private static final double TAX_RATE = 0.10; // Thuế 10%
 
+    public StatisticsController(@Autowired OrderService orderService) {
+        this.orderService = orderService;
+    }
     // GET: /api/stats/revenue?restaurantId=1&start=2023-01-01&end=2023-12-31
     @GetMapping("/revenue")
     public ResponseEntity<RevenueDTO> getRevenue(
@@ -33,8 +34,8 @@ public class StatisticsController {
         LocalDateTime startDateTime = start.atStartOfDay();
         LocalDateTime endDateTime = end.atTime(LocalTime.MAX);
 
-        Double totalAmount = orderRepository.sumTotalPriceByRestaurantAndDate(restaurantId, startDateTime, endDateTime);
-        Long count = orderRepository.countOrdersByRestaurantAndDate(restaurantId, startDateTime, endDateTime);
+        Double totalAmount = orderService.sumTotalPriceByRestaurantAndDate(restaurantId, startDateTime, endDateTime);
+        Long count = orderService.countOrdersByRestaurantAndDate(restaurantId, startDateTime, endDateTime);
 
         if (totalAmount == null) totalAmount = 0.0;
 
@@ -48,4 +49,5 @@ public class StatisticsController {
 
         return ResponseEntity.ok(new RevenueDTO(revenueAfterTax, revenueBeforeTax, taxAmount, count));
     }
+
 }

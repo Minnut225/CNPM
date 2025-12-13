@@ -47,4 +47,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "restaurantId")
     private Restaurant restaurant;
+
+    @Column(name = "discount")
+    private double discount;
 }

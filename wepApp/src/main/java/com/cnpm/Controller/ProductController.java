@@ -84,7 +84,8 @@ public class ProductController {
                 productDTO.getPrice(),
                 productDTO.getImageUrl(),
                 productDTO.isAvailable(),
-                productDTO.getCategoryId()
+                productDTO.getCategoryId(),
+                productDTO.getDiscount()
         ));
     }
 

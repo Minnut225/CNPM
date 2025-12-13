@@ -1,0 +1,43 @@
+services:
+  
+  website:
+    build: ./web
+    depends_on:
+      - wepApp
+    ports:
+      - "5173:80"
+    networks:
+      - app-net
+
+  monitor:
+    build: ./monitor
+    depends_on:
+      - wepApp
+    ports:
+      - "5174:80"
+    networks:
+      - app-net
+
+  wepApp:
+    build: ./wepApp
+    image: fastfood-wepapp
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:8080"
+    networks:
+      - app-net
+    volumes:
+      - ~/.m2:/root/.m2 
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: "Abc12345!"
+    ports:
+      - "1433:1433"
+
+networks:
+  app-net:
+    driver: bridge

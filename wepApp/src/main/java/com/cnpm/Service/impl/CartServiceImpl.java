@@ -89,7 +89,7 @@ public class CartServiceImpl implements CartService {
         }
         // Cập nhật total price
         cart.setTotalPrice(cart.getCartItems().stream()
-                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity() * 0.9)
                 .sum());
         cartRepo.save(cart);
         return convertToDTO(cart);
@@ -189,7 +189,8 @@ public class CartServiceImpl implements CartService {
                         item.getProduct().getProductName(), // include product name in DTO
                         item.getProduct().getImageUrl(), // include image URL in DTO
                         item.getQuantity(),
-                        item.getProduct().getPrice() // include price in DTO
+                        item.getProduct().getPrice(), // include price in DTO
+                        10.00
                 ))
                 .collect(Collectors.toList()));
         return dto;
